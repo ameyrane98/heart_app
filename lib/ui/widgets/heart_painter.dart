@@ -1,59 +1,65 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
-/// Draws a circular progress "ring" that fills based on [percent] (0..100).
-class HeartPainter extends CustomPainter {
+/// A heart that fills from bottom → top based on [percent] (0–100).
+class HeartFillWidget extends StatelessWidget {
   final double percent; // 0..100
-  final double strokeWidth;
-  final Color backgroundColor;
-  final Color progressColor;
+  final double size;
 
-  HeartPainter(
-    this.percent, {
-    this.strokeWidth = 16,
-    this.backgroundColor = const Color(0xFFE5E7EB), // grey.300
-    this.progressColor = Colors.blue,
-  });
+  const HeartFillWidget({super.key, required this.percent, this.size = 200});
 
   @override
-  void paint(Canvas canvas, Size size) {
-    // 1) Compute center & radius from the paint area (the CustomPaint.size).
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.shortestSide * 0.4;
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Background empty heart (grey outline)
+        Icon(Icons.favorite, color: Colors.grey.shade300, size: size),
 
-    // 2) Background ring paint.
-    final bgPaint = Paint()
-      ..color = backgroundColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..isAntiAlias = true;
+        // Foreground filled heart (red), clipped based on percent
+        ClipRect(
+          clipper: _HeartClipper(percent),
+          child: Icon(Icons.favorite, color: Colors.red, size: size),
+        ),
 
-    // 3) Foreground (progress) ring paint.
-    final fgPaint = Paint()
-      ..color = progressColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..isAntiAlias = true;
+        // Optional: show text inside
+        Text(
+          '${percent.toStringAsFixed(0)}%',
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                blurRadius: 3,
+                color: Colors.black26,
+                offset: Offset(1, 1),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
 
-    // 4) Draw full background circle.
-    canvas.drawCircle(center, radius, bgPaint);
+/// Custom clipper to control how much of the heart is visible.
+class _HeartClipper extends CustomClipper<Rect> {
+  final double percent; // 0..100
 
-    // 5) Translate percent (0..100) to sweep angle in radians.
-    final sweepAngle = 2 * math.pi * (percent.clamp(0, 100) / 100.0);
+  _HeartClipper(this.percent);
 
-    // 6) Start from top (-90°) and draw the arc with the computed sweep.
-    const startAngle = -math.pi / 2;
-    final rect = Rect.fromCircle(center: center, radius: radius);
-    canvas.drawArc(rect, startAngle, sweepAngle, false, fgPaint);
+  @override
+  Rect getClip(Size size) {
+    // height to fill
+    final fillHeight = size.height * (percent.clamp(0, 100) / 100);
+    return Rect.fromLTWH(
+      0,
+      size.height - fillHeight, // fill from bottom
+      size.width,
+      fillHeight,
+    );
   }
 
   @override
-  bool shouldRepaint(covariant HeartPainter old) {
-    // Repaint only when inputs that affect drawing change.
-    return old.percent != percent ||
-        old.strokeWidth != strokeWidth ||
-        old.backgroundColor != backgroundColor ||
-        old.progressColor != progressColor;
-  }
+  bool shouldReclip(_HeartClipper oldClipper) => oldClipper.percent != percent;
 }

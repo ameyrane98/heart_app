@@ -15,15 +15,7 @@ class HeartScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            CustomPaint(
-              size: const Size(200, 200),
-              painter: HeartPainter(
-                vm.progress, // <-- IMPORTANT: pass percent here
-                strokeWidth: 12,
-                backgroundColor: Colors.grey.shade300,
-                progressColor: Colors.blue,
-              ),
-            ),
+            HeartFillWidget(percent: vm.progress, size: 200),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment:
