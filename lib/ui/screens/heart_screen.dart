@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heart_app/ui/screens/success_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/heart_view_model.dart';
 
@@ -36,6 +37,20 @@ class HeartScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 ElevatedButton(onPressed: vm.clear, child: const Text("Clear")),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: vm.state == HeartState.completed
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SuccessScreen(),
+                            ),
+                          );
+                        }
+                      : null,
+                  child: const Text("Next"),
+                ),
               ],
             ),
           ],
