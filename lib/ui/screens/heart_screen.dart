@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:heart_app/ui/screens/success_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/heart_view_model.dart';
-import '../widgets/heart_painter.dart';
+import '../widgets/heart_painter_twoIcon+ClipRect.dart';
+import '../widgets/_LiquidHeartChartState.dart';
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -10,12 +11,25 @@ class HeartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<HeartViewModel>();
+    final isDisabled = vm.state == HeartState.completed;
+
     return Scaffold(
       appBar: AppBar(title: Text('Heart App')),
       body: Center(
         child: Column(
           children: [
-            HeartFillWidget(percent: vm.progress, size: 200),
+            LiquidHeartChart(
+              percent: vm.progress,
+              size: 240,
+              backgroundColor: Colors.grey.shade300,
+              fillColor: Colors.redAccent,
+              borderColor: Colors.red,
+              borderWidth: 4,
+              onTap: isDisabled
+                  ? null
+                  : vm.toggleStartPause, // click heart to start/pause
+            ),
+            // HeartFillWidget(percent: vm.progress, size: 200),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment:
