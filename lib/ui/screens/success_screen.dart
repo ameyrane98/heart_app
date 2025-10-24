@@ -18,13 +18,19 @@ class SuccessScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.lightBlue,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const HeartScreen()),
                 );
               },
-              child: const Text("Back"),
+              child: const Text(
+                "Back",
+                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+              ),
             ),
           ],
         ),

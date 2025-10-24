@@ -1,21 +1,16 @@
+// lib/models/heart.dart
 class Heart {
-  double progress;
-  final double step;
+  double progress; // never null
+  final double step; // never null
+  final double capacity; // never null
 
-  Heart({required this.progress, required this.step});
+  Heart({
+    required this.capacity,
+    this.progress = 0, // ✅ default
+    required this.step,
+  }) : assert(capacity > 0, 'capacity must be > 0'),
+       assert(step > 0, 'step must be > 0');
 
-  Future<void> fillHeart() async {
-    while (progress < 100) {
-      await Future.delayed(const Duration(seconds: 2));
-      progress += step;
-      if (progress > 100) progress = 100;
-      print('Heart filled to $progress%');
-    }
-
-    print('Heart is full ❤️');
-  }
-
-  bool isfull() => progress >= 100;
-
-  String status() => isfull() ? 'Full ❤️' : 'Filling...';
+  bool isFull() => progress >= capacity;
+  String status() => isFull() ? 'Full ❤️' : 'Filling...';
 }

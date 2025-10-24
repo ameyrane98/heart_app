@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:heart_app/ui/screens/success_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodels/heart_view_model.dart';
+import '../widgets/heart_painter.dart';
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -14,11 +15,16 @@ class HeartScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text(
-              '${vm.progress.toStringAsFixed(0)}%',
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            CustomPaint(
+              size: const Size(200, 200),
+              painter: HeartPainter(
+                vm.progress, // <-- IMPORTANT: pass percent here
+                strokeWidth: 12,
+                backgroundColor: Colors.grey.shade300,
+                progressColor: Colors.blue,
+              ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment:
                   MainAxisAlignment.center, // center buttons horizontally
@@ -36,9 +42,21 @@ class HeartScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                ElevatedButton(onPressed: vm.clear, child: const Text("Clear")),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+                  ),
+                  onPressed: vm.clear,
+                  child: const Text(
+                    "Clear",
+                    style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                ),
                 const SizedBox(width: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlue,
+                  ),
                   onPressed: vm.state == HeartState.completed
                       ? () {
                           Navigator.push(
@@ -49,7 +67,10 @@ class HeartScreen extends StatelessWidget {
                           );
                         }
                       : null,
-                  child: const Text("Next"),
+                  child: const Text(
+                    "Next",
+                    style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+                  ),
                 ),
               ],
             ),

@@ -9,7 +9,7 @@ class HeartApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => HeartViewModel()..init(),
+      create: (_) => HeartViewModel(capacity: 100),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HeartScreen(),
