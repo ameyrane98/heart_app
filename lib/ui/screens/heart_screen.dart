@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../../viewmodels/heart_view_model.dart';
 import '../widgets/heart_painter_twoIcon+ClipRect.dart';
 import '../widgets/_LiquidHeartChartState.dart';
+import '../widgets/heart_painter_twoIcon+ClipRect.dart';
+import '../widgets/HeartPathFill_ClipPathHeart.dart';
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -18,18 +20,17 @@ class HeartScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            LiquidHeartChart(
-              percent: vm.progress,
-              size: 240,
-              backgroundColor: Colors.grey.shade300,
-              fillColor: Colors.redAccent,
-              borderColor: Colors.red,
-              borderWidth: 4,
-              onTap: isDisabled
-                  ? null
-                  : vm.toggleStartPause, // click heart to start/pause
-            ),
+            // const LiquidHeartChart(
+            //   size: 240,
+            //   duration: Duration(seconds: 4),
+            //   backgroundColor: Color(0x33808080), // optional
+            //   fillColor: Colors.redAccent, // optional
+            //   borderColor: Colors.red, // optional
+            //   borderWidth: 4, // optional
+            //   showPercentText: true, // optional
+            // ),
             // HeartFillWidget(percent: vm.progress, size: 200),
+            HeartFillWidget2(percent: vm.progress, size: 200),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment:
