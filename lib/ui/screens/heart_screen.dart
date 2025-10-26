@@ -6,6 +6,7 @@ import '../widgets/heart_painter_twoIcon+ClipRect.dart';
 import '../widgets/_LiquidHeartChartState.dart';
 import '../widgets/heart_painter_twoIcon+ClipRect.dart';
 import '../widgets/HeartPathFill_ClipPathHeart.dart';
+import '../widgets/HeartPainterFill.dart';
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -20,6 +21,22 @@ class HeartScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            HeartPainterFill(
+              percent: vm.progress, // 0..100 from your ViewModel
+              size: 220,
+              gradient: const LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Color(0xFFFF4B5C), Color(0xFFFF9AA2)],
+                stops: [0.15, 1.0],
+              ),
+              backgroundColor: Color(0xFFF2F2F2),
+              borderColor: Colors.red,
+              borderWidth: 4,
+              shadowElevation: 8, // set 0 to disable
+              showGloss: true,
+            ),
+
             // const LiquidHeartChart(
             //   size: 240,
             //   duration: Duration(seconds: 4),
@@ -30,7 +47,7 @@ class HeartScreen extends StatelessWidget {
             //   showPercentText: true, // optional
             // ),
             // HeartFillWidget(percent: vm.progress, size: 200),
-            HeartFillWidget2(percent: vm.progress, size: 200),
+            // HeartFillWidget2(percent: vm.progress, size: 200),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment:
