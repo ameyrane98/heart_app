@@ -6,9 +6,9 @@ import '../../../viewmodels/heart_view_model.dart';
 
 // Keep these so you can switch renderers easily:
 import '../widgets/heart_painter_twoIcon+ClipRect.dart'; // HeartFillWidget (two Icons + ClipRect)
-// import '../widgets/_LiquidHeartChartState.dart';        // Liquid-style heart (animated)
-// import '../widgets/HeartPathFill_ClipPathHeart.dart';   // Path-based ClipPath approach
-// import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
+import '../widgets/_LiquidHeartChartState.dart'; // Liquid-style heart (animated)
+import '../widgets/HeartPathFill_ClipPathHeart.dart'; // Path-based ClipPath approach
+import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -68,12 +68,15 @@ class HeartScreen extends StatelessWidget {
 
                   // 1) CustomPainter + gradient (most polished)
                   // child: HeartPainterFill(
-                  //   percent: vm.progress,          // 0..100 from your ViewModel
+                  //   percent: vm.percent, // 0..100 from your ViewModel
                   //   size: 240,
                   //   gradient: const LinearGradient(
                   //     begin: Alignment.bottomCenter,
                   //     end: Alignment.topCenter,
-                  //     colors: [Color(0xFF2B0A5A), Color(0xFF3F0D82)], // deep→purple
+                  //     colors: [
+                  //       Color(0xFF2B0A5A),
+                  //       Color(0xFF3F0D82),
+                  //     ], // deep→purple
                   //   ),
                   //   backgroundColor: Color(0xFFE7E7E7),
                   //   borderColor: Color(0xFF2B0A5A),
@@ -83,7 +86,7 @@ class HeartScreen extends StatelessWidget {
                   // ),
 
                   // 2) Simple two-Icon overlay + ClipRect (fastest to toggle)
-                  child: HeartFillWidget(percent: vm.progress, size: 240),
+                  child: HeartFillWidget(percent: vm.percent, size: 240),
 
                   // 3) Liquid heart (animated fill)
                   // child: const LiquidHeartChart(
@@ -102,7 +105,7 @@ class HeartScreen extends StatelessWidget {
                   /// - [backgroundColor]: color of empty area inside the heart
                   /// - [fillColor]: color of the filled portion
                   /// - [borderColor]/[borderWidth]: outline on top
-                  // child: HeartFillWidget2(percent: vm.progress, size: 240),
+                  // child: HeartFillWidget2(percent: vm.percent, size: 240),
                 ),
               ),
 
@@ -110,7 +113,7 @@ class HeartScreen extends StatelessWidget {
 
               // Percent BELOW the heart (per mock)
               Text(
-                '${vm.progress.toStringAsFixed(0)}%',
+                '${vm.percent.toStringAsFixed(0)}%',
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

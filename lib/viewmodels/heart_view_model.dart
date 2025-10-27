@@ -19,6 +19,7 @@ class HeartViewModel extends ChangeNotifier {
 
   double get progress => _heart.progress;
   HeartState get state => _state;
+  double get capacity => _heart.capacity;
 
   double get percent =>
       _heart.capacity <= 0 ? 0 : (_heart.progress / _heart.capacity) * 100.0;
