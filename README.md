@@ -112,7 +112,7 @@ State is handled using **Provider + ChangeNotifier**.
 
 ## 🔄 Runtime Flow
 
-![Runtime Flow](runtime_flow.png)
+![Runtime Flow](./runtime_flow.png)
 
 ---
 
@@ -143,20 +143,6 @@ State is handled using **Provider + ChangeNotifier**.
 | **SharedPreferences**          | Lightweight local persistence for small data.                     |
 | **Provider**                   | Simple reactive state management; minimal boilerplate.            |
 | **GestureDetector-based UX**   | Natural, button-free interaction model.                           |
-
----
-
-## 🧪 Testing Strategy
-
-### Unit Tests (Planned)
-
-- `HeartViewModel` – verifies timer logic and state transitions.
-- `HeartRepository` – tests persistence (using mock drivers).
-
-### Widget Tests
-
-- Simulate tap gestures.
-- Assert UI responds (heart fill %, button visibility).
 
 ---
 
