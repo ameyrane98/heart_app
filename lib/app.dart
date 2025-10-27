@@ -1,6 +1,5 @@
+// lib/app.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'viewmodels/heart_view_model.dart';
 import 'ui/screens/heart_screen.dart';
 
 class HeartApp extends StatelessWidget {
@@ -8,12 +7,9 @@ class HeartApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => HeartViewModel(capacity: 100),
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HeartScreen(),
-      ),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HeartScreen(),
     );
   }
 }
