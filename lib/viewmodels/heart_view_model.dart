@@ -1,77 +1,47 @@
 // lib/viewmodels/heart_view_model.dart
-import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../models/heart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../models/repository/heart_repository.dart';
+import '../models/services/heart_fill_service.dart';
 
 enum HeartState { empty, progressing, paused, completed }
 
 class HeartViewModel extends ChangeNotifier {
-  final Heart _heart;
+  final HeartRepository repo;
+  final HeartFillService filler;
+
+  late Heart _heart;
   HeartState _state = HeartState.empty;
-  Timer? _timer;
+
+  HeartViewModel({required this.repo, required this.filler}) {
+    _init();
+  }
 
   double get progress => _heart.progress;
   HeartState get state => _state;
 
-  // Keys for SharedPreferences
-  static const _progressKey = 'heart_progress';
-  static const _stateKey = 'heart_state';
+  double get percent =>
+      _heart.capacity <= 0 ? 0 : (_heart.progress / _heart.capacity) * 100.0;
 
-  HeartViewModel({required double capacity})
-    : assert(capacity > 0),
-      _heart = Heart(
-        capacity: capacity,
-        progress: 0,
-        step: capacity * 0.10, // 10% per tick
-      ) {
-    _loadSavedState(); //  Restore progress/state on startup
-  }
-
-  double get percent {
-    final cap = _heart.capacity;
-    if (cap <= 0) return 0; // extra guard (shouldn’t happen)
-    return (_heart.progress / cap) * 100;
-  }
-
-  //  Persistence Helpers
-
-  Future<void> _loadSavedState() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedProgress = prefs.getDouble(_progressKey) ?? 0;
-    final savedStateIndex = prefs.getInt(_stateKey) ?? 0;
-
-    _heart.progress = savedProgress;
-    _state = HeartState.values[savedStateIndex];
-
+  Future<void> _init() async {
+    _heart = await repo.load();
+    if (_heart.progress <= 0) _state = HeartState.empty;
     notifyListeners();
-
-    // Auto-resume if app was closed mid-filling
-    if (_state == HeartState.progressing) start();
   }
-
-  Future<void> _saveState() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_progressKey, _heart.progress);
-    await prefs.setInt(_stateKey, _state.index);
-  }
-
-  // Heart Logic
 
   Future<void> start() async {
-    if (_timer != null || _state == HeartState.completed) return;
+    if (filler.isRunning || _state == HeartState.completed) return;
 
     _state = HeartState.progressing;
-    await _saveState();
+    await repo.save(_heart, stateIndex: _state.index);
     notifyListeners();
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) async {
-      _heart.progress += _heart.step;
-
+    filler.start(() async {
+      _heart = _heart.copyWith(progress: _heart.progress + _heart.step);
       if (_heart.progress >= _heart.capacity) {
         finish();
       } else {
-        await _saveState();
+        await repo.save(_heart, stateIndex: _state.index);
         notifyListeners();
       }
     });
@@ -80,40 +50,35 @@ class HeartViewModel extends ChangeNotifier {
   void toggleStartPause() {
     if (_state == HeartState.completed) return;
 
-    if (_timer != null) {
-      // Pause
-      _timer?.cancel();
-      _timer = null;
+    if (filler.isRunning) {
+      filler.pause();
       _state = _heart.progress > 0 ? HeartState.paused : HeartState.empty;
-      _saveState();
+      repo.save(_heart, stateIndex: _state.index);
       notifyListeners();
     } else {
-      // Start
       start();
     }
   }
 
   void finish() {
-    _timer?.cancel();
-    _timer = null;
-    _heart.progress = _heart.capacity;
+    filler.pause();
+    _heart = _heart.copyWith(progress: _heart.capacity);
     _state = HeartState.completed;
-    _saveState();
+    repo.save(_heart, stateIndex: _state.index);
     notifyListeners();
   }
 
   void clear() {
-    _timer?.cancel();
-    _timer = null;
-    _heart.progress = 0;
+    filler.pause();
+    _heart = _heart.copyWith(progress: 0);
     _state = HeartState.empty;
-    _saveState();
+    repo.clear();
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+    filler.dispose();
     super.dispose();
   }
 }

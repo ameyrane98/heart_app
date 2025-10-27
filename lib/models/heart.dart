@@ -1,16 +1,29 @@
 // lib/models/heart.dart
 class Heart {
-  double progress; // never null
-  final double step; // never null
-  final double capacity; // never null
+  final double capacity;
+  final double progress;
+  final double step;
 
-  Heart({
+  const Heart({
     required this.capacity,
-    this.progress = 0, // ✅ default
+    required this.progress,
     required this.step,
-  }) : assert(capacity > 0, 'capacity must be > 0'),
-       assert(step > 0, 'step must be > 0');
+  });
+  Heart copyWith({double? capacity, double? progress, double? step}) {
+    return Heart(
+      capacity: capacity ?? this.capacity,
+      progress: progress ?? this.progress,
+      step: step ?? this.step,
+    );
+  }
+
+  double get percent =>
+      capacity <= 0 ? 0 : (progress / capacity * 100).clamp(0, 100);
 
   bool isFull() => progress >= capacity;
-  String status() => isFull() ? 'Full ❤️' : 'Filling...';
+  String get status => isFull()
+      ? 'Full ❤️'
+      : progress > 0
+      ? 'Filling... ${percent.toStringAsFixed(0)}%'
+      : 'Empty 🤍';
 }
