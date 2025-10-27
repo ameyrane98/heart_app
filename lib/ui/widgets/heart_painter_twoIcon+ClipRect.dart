@@ -43,12 +43,14 @@ class _HeartClipper extends CustomClipper<Rect> {
   Rect getClip(Size size) {
     final p = percent.clamp(0, 100) / 100.0;
     final fillHeight = size.height * p;
-    return Rect.fromLTWH(
+    final rect = Rect.fromLTWH(
       0,
       size.height - fillHeight, // fill from bottom
       size.width,
       fillHeight,
     );
+
+    return rect;
   }
 
   @override

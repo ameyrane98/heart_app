@@ -79,26 +79,17 @@ class HeartScreen extends StatelessWidget {
                   //     ], // deep→purple
                   //   ),
                   //   backgroundColor: Color(0xFFE7E7E7),
-                  //   borderColor: Color(0xFF2B0A5A),
-                  //   borderWidth: 4,
-                  //   shadowElevation: 8, // set 0 to disable
-                  //   showGloss: false,
                   // ),
 
                   // 2) Simple two-Icon overlay + ClipRect (fastest to toggle)
                   child: HeartFillWidget(percent: vm.percent, size: 240),
 
                   // 3) Liquid heart (animated fill)
-                  // child: const LiquidHeartChart(
+                  // child: LiquidHeartChart(
+                  //   percent: vm.percent, // 👈 this drives the fill
                   //   size: 240,
-                  //   duration: Duration(seconds: 4),
-                  //   backgroundColor: Color(0x33808080),
-                  //   fillColor: Color(0xFF3F0D82),
-                  //   borderColor: Color(0xFF2B0A5A),
-                  //   borderWidth: 4,
-                  //   showPercentText: false, // keep text below to match mock
+                  //   showPercentText: false,
                   // ),
-
                   // 4) /// A simple heart fill using ClipPath + Path (no third-party animation).
                   /// - [percent]: 0..100
                   /// - [size]: square extent of the heart area

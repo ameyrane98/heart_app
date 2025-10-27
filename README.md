@@ -106,7 +106,7 @@ State is handled using **Provider + ChangeNotifier**.
 
 ## 🧱 Layered Diagram
 
-![Architecture Layers](./architecture_layers.png)
+![Architecture Layers](./architecture_layer.png)
 
 ---
 
