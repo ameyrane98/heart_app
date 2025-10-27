@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:heart_app/ui/screens/heart_screen.dart';
-import 'package:provider/provider.dart';
 
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
 
+  static const _navy = Color(0xFF184A6B);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Heart App')),
-      body: Center(
+      appBar: AppBar(backgroundColor: _navy, title: const Text('Success')),
+      body: SafeArea(
         child: Column(
           children: [
-            Text(
-              'Success',
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlue,
+            const Spacer(),
+            const Center(
+              child: Text(
+                'SUCCESS!',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.5,
+                ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HeartScreen()),
-                );
-              },
-              child: const Text(
-                "Back",
-                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2F73C6),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ),
           ],
