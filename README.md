@@ -110,9 +110,9 @@ State is handled using **Provider + ChangeNotifier**.
 
 ---
 
-## 🔄 Runtime Flow
+## 🔄 State Flow
 
-![Runtime Flow](./runtime_flow.png)
+![Runtime Flow](./state_flow.png)
 
 ---
 
