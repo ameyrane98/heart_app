@@ -8,7 +8,10 @@ class SuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: _navy, title: const Text('Success')),
+      appBar: AppBar(
+        backgroundColor: _navy,
+        title: const Text('Success', style: TextStyle(color: Colors.white)),
+      ),
       body: SafeArea(
         child: Column(
           children: [

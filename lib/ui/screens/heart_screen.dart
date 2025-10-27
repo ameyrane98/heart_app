@@ -8,13 +8,14 @@ import '../../../viewmodels/heart_view_model.dart';
 import '../widgets/heart_painter_twoIcon+ClipRect.dart'; // HeartFillWidget (two Icons + ClipRect)
 // import '../widgets/_LiquidHeartChartState.dart';        // Liquid-style heart (animated)
 // import '../widgets/HeartPathFill_ClipPathHeart.dart';   // Path-based ClipPath approach
-import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
+// import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
 
-  // Image colors
-  static const Color _blueBtn = Color(0xFF2F73C6);
+  // Consistent colors with SuccessScreen
+  static const Color _navy = Color(0xFF184A6B);
+  static const Color _blue = Color(0xFF2F73C6);
   static const Color _grayDisabled = Color(0xFFDADADA);
 
   String _titleFor(HeartState s) {
@@ -36,7 +37,14 @@ class HeartScreen extends StatelessWidget {
     final showClear = vm.state == HeartState.completed;
 
     return Scaffold(
-      appBar: AppBar(title: Text(_titleFor(vm.state))),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: _navy,
+        title: Text(
+          _titleFor(vm.state),
+          style: TextStyle(color: Colors.white),
+        ), // consistent with SuccessScreen
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -44,44 +52,60 @@ class HeartScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // ======== CHOOSE ONE HEART RENDERER (keep comments to switch) ========
+              // Wrap the heart with GestureDetector to Start/Pause on tap.
+              GestureDetector(
+                onTap: vm.state == HeartState.completed
+                    ? null // no-op once filled
+                    : () {
+                        vm.toggleStartPause();
+                      },
+                behavior: HitTestBehavior.translucent,
+                child: Semantics(
+                  button: true,
+                  label: vm.state == HeartState.progressing
+                      ? 'Pause filling'
+                      : 'Start filling',
 
-              // 1) CustomPainter + gradient (most polished)
-              // HeartPainterFill(
-              //   percent: vm.progress,          // 0..100 from your ViewModel
-              //   size: 240,
-              //   gradient: const LinearGradient(
-              //     begin: Alignment.bottomCenter,
-              //     end: Alignment.topCenter,
-              //     colors: [Color(0xFF2B0A5A), Color(0xFF3F0D82)], // deep→purple
-              //   ),
-              //   backgroundColor: Color(0xFFE7E7E7),
-              //   borderColor: Color(0xFF2B0A5A),
-              //   borderWidth: 4,
-              //   shadowElevation: 8, // set 0 to disable
-              //   showGloss: false,
-              // ),
+                  // 1) CustomPainter + gradient (most polished)
+                  // child: HeartPainterFill(
+                  //   percent: vm.progress,          // 0..100 from your ViewModel
+                  //   size: 240,
+                  //   gradient: const LinearGradient(
+                  //     begin: Alignment.bottomCenter,
+                  //     end: Alignment.topCenter,
+                  //     colors: [Color(0xFF2B0A5A), Color(0xFF3F0D82)], // deep→purple
+                  //   ),
+                  //   backgroundColor: Color(0xFFE7E7E7),
+                  //   borderColor: Color(0xFF2B0A5A),
+                  //   borderWidth: 4,
+                  //   shadowElevation: 8, // set 0 to disable
+                  //   showGloss: false,
+                  // ),
 
-              // 2) Simple two-Icon overlay + ClipRect (fastest to toggle)
-              HeartFillWidget(percent: vm.progress, size: 240),
+                  // 2) Simple two-Icon overlay + ClipRect (fastest to toggle)
+                  child: HeartFillWidget(percent: vm.progress, size: 240),
 
-              // 3) Liquid heart (animated fill)
-              // const LiquidHeartChart(
-              //   size: 240,
-              //   duration: Duration(seconds: 4),
-              //   backgroundColor: Color(0x33808080),
-              //   fillColor: Color(0xFF3F0D82),
-              //   borderColor: Color(0xFF2B0A5A),
-              //   borderWidth: 4,
-              //   showPercentText: false, // keep text below to match mock
-              // ),
+                  // 3) Liquid heart (animated fill)
+                  // child: const LiquidHeartChart(
+                  //   size: 240,
+                  //   duration: Duration(seconds: 4),
+                  //   backgroundColor: Color(0x33808080),
+                  //   fillColor: Color(0xFF3F0D82),
+                  //   borderColor: Color(0xFF2B0A5A),
+                  //   borderWidth: 4,
+                  //   showPercentText: false, // keep text below to match mock
+                  // ),
 
-              // 4) /// A simple heart fill using ClipPath + Path (no third-party animation).
-              /// - [percent]: 0..100
-              /// - [size]: square extent of the heart area
-              /// - [backgroundColor]: color of empty area inside the heart
-              /// - [fillColor]: color of the filled portion
-              /// - [borderColor]/[borderWidth]: outline on top
-              // HeartFillWidget2(percent: vm.progress, size: 240),
+                  // 4) /// A simple heart fill using ClipPath + Path (no third-party animation).
+                  /// - [percent]: 0..100
+                  /// - [size]: square extent of the heart area
+                  /// - [backgroundColor]: color of empty area inside the heart
+                  /// - [fillColor]: color of the filled portion
+                  /// - [borderColor]/[borderWidth]: outline on top
+                  // child: HeartFillWidget2(percent: vm.progress, size: 240),
+                ),
+              ),
+
               const SizedBox(height: 16),
 
               // Percent BELOW the heart (per mock)
@@ -93,57 +117,40 @@ class HeartScreen extends StatelessWidget {
                   color: Colors.black87,
                 ),
               ),
+              Text(
+                vm.state == HeartState.progressing
+                    ? 'Tap to pause ❤️'
+                    : vm.state == HeartState.paused ||
+                          vm.state == HeartState.empty
+                    ? 'Tap to start filling 💜'
+                    : 'Heart filled 💯',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                ),
+              ),
 
               const Spacer(),
 
-              // ======== BIG FULL-WIDTH BUTTONS (match mock) ========
+              // ======== BOTTOM BUTTONS (consistent with SuccessScreen) ========
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: Column(
                   children: [
-                    // Start / Pause / Resume (disabled once completed)
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _blueBtn,
-                          disabledBackgroundColor: _grayDisabled,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 2,
-                        ),
-                        onPressed: vm.state == HeartState.completed
-                            ? null
-                            : vm.toggleStartPause,
-                        child: Text(
-                          vm.state == HeartState.progressing
-                              ? 'Pause ❤️'
-                              : vm.state == HeartState.paused
-                              ? 'Resume ❤️'
-                              : 'Start ❤️',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
+                    // (Start button removed) — heart tap controls start/pause now.
 
                     // Clear (only visible when filled, like the mock)
                     if (showClear)
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _blueBtn,
+                            backgroundColor: _blue,
+                            disabledBackgroundColor: _grayDisabled,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             elevation: 2,
                           ),
@@ -151,26 +158,26 @@ class HeartScreen extends StatelessWidget {
                           child: const Text(
                             'Clear',
                             style: TextStyle(
-                              fontSize: 18,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                       ),
 
-                    if (showClear) const SizedBox(height: 16),
+                    if (showClear) const SizedBox(height: 12),
 
                     // Next (enabled only when filled)
                     SizedBox(
                       width: double.infinity,
-                      height: 56,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _blueBtn,
+                          backgroundColor: _blue,
                           disabledBackgroundColor: _grayDisabled,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           elevation: 2,
                         ),
@@ -187,9 +194,9 @@ class HeartScreen extends StatelessWidget {
                         child: const Text(
                           'Next',
                           style: TextStyle(
-                            fontSize: 18,
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
