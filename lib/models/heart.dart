@@ -21,9 +21,4 @@ class Heart {
       capacity <= 0 ? 0 : (progress / capacity * 100).clamp(0, 100);
 
   bool isFull() => progress >= capacity;
-  String get status => isFull()
-      ? 'Full ❤️'
-      : progress > 0
-      ? 'Filling... ${percent.toStringAsFixed(0)}%'
-      : 'Empty 🤍';
 }
