@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:heart_app/ui/screens/success_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../../../viewmodels/heart_view_model.dart';
+import 'package:heart_app/viewmodels/heart_view_model.dart';
 
-import '../widgets/heart_painter_twoIcon+ClipRect.dart'; // HeartFillWidget (two Icons + ClipRect)
-import '../widgets/_LiquidHeartChartState.dart'; // Liquid-style heart (animated)
-import '../widgets/HeartPathFill_ClipPathHeart.dart'; // Path-based ClipPath approach
-import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
+import 'package:heart_app/ui/widgets/heart_painter_two_icon_cliprect.dart';
+// import 'package:heart_app/ui/widgets/liquid_heart_chart.dart';
+// import 'package:heart_app/ui/widgets/heart_path_fill_clippath_heart.dart';
+// import 'package:heart_app/ui/widgets/heart_painter_fill.dart';
 
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
@@ -90,11 +90,7 @@ class HeartScreen extends StatelessWidget {
                   // ),
 
                   // 4) /// A simple heart fill using ClipPath + Path (no third-party animation).
-                  /// - [percent]: 0..100
-                  /// - [size]: square extent of the heart area
-                  /// - [backgroundColor]: color of empty area inside the heart
-                  /// - [fillColor]: color of the filled portion
-                  /// - [borderColor]/[borderWidth]: outline on top
+
                   // child: HeartFillWidget2(percent: vm.percent, size: 240),
                 ),
               ),
