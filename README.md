@@ -10,6 +10,61 @@ Progress persists between sessions using **SharedPreferences**.
 
 ---
 
+## 🚀 Run the App
+
+### 1️⃣ Prerequisites
+
+Before running, ensure you have:
+
+- **Flutter SDK ≥ 3.19**
+- **Android Studio / VS Code** (with Flutter plugin)
+- **JDK 17+**
+- **Android Emulator** or a connected device
+
+Verify setup:
+
+```bash
+flutter doctor
+```
+
+### 2️⃣ Get Dependencies
+
+Install all required packages:
+
+```bash
+flutter pub get
+```
+
+### 3️⃣ Run on Android
+
+To run on a physical device or emulator:
+
+```bash
+flutter run
+```
+
+Or specify explicitly:
+
+```bash
+flutter run -d emulator-5554
+```
+
+### 4️⃣ Build for Release (Optional)
+
+Create an Android APK or AppBundle:
+
+```bash
+flutter build apk --release
+# or
+flutter build appbundle --release
+```
+
+### 5️⃣ (Optional) Run Tests
+
+```bash
+flutter test
+```
+
 ## Code Organization
 
 ```
