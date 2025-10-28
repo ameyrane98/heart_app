@@ -146,6 +146,3 @@ State is handled using **Provider + ChangeNotifier**.
 
 ---
 
-## 🧾 License
-
-MIT License © 2025 Amey Rane
