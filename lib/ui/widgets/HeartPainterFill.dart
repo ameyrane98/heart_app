@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// HeartPainterFill (Beginner-Friendly)
-/// ------------------------------------
+/// HeartPainterFill
 /// - Draws a heart with a background color.
 /// - Fills from bottom → top based on [percent] (0..100).
-/// - Uses a simple vertical gradient for the fill.
-/// - No border, no shadow, no gloss — just the essentials.
+
 class HeartPainterFill extends StatelessWidget {
   const HeartPainterFill({
     super.key,

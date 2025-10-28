@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
-/// Displays a heart that fills based on [percent] (0–100).
-/// Designed for use with ViewModels like HeartViewModel (MVVM pattern).
 class LiquidHeartChart extends StatelessWidget {
   const LiquidHeartChart({
     super.key,
-    required this.percent, // 👈 REQUIRED param
+    required this.percent,
     this.size = 220,
     this.backgroundColor = const Color(0x408BCD8D),
     this.fillColor = Colors.pink,

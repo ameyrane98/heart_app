@@ -9,9 +9,12 @@ class Heart {
     required this.progress,
     required this.step,
   });
+  // double? is a null safety feature
   Heart copyWith({double? capacity, double? progress, double? step}) {
     return Heart(
-      capacity: capacity ?? this.capacity,
+      capacity:
+          capacity ??
+          this.capacity, // x ?? y i-> If x is not null, use x; else use y.
       progress: progress ?? this.progress,
       step: step ?? this.step,
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// ====== YOUR APP IMPORTS (adjust paths if needed) ======
 import 'package:heart_app/viewmodels/heart_view_model.dart';
 import 'package:heart_app/models/heart.dart';
 import 'package:heart_app/models/repository/heart_repository.dart';
@@ -24,7 +23,6 @@ class FakeHeartFillService implements HeartFillService {
   void start(Function() onTick) {
     _running = true;
     // Accept both sync/async callbacks—store as VoidCallback for tests.
-    // We'll call it manually via tickOnce() in tests.
     _onTick = () {
       // If onTick is async, ignore the Future in tests.
       final result = onTick();

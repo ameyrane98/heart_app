@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// A heart that fills from bottom → top based on [percent] (0–100).
-/// Shows ONLY the heart. Put the percentage text below in the screen.
+// A heart that fills from bottom → top based on [percent] (0–100).
 class HeartFillWidget extends StatelessWidget {
   final double percent; // 0..100
   final double size;

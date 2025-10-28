@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// Heart that fills from bottom→top using ClipPath + Path.
-/// - [percent]: 0..100
-/// - [size]: square extent of the heart
-/// - [backgroundColor]: empty part color
-/// - [fillColor]: filled part color
 class HeartFillWidget2 extends StatelessWidget {
   const HeartFillWidget2({
     super.key,

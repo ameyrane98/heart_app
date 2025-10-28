@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../viewmodels/heart_view_model.dart';
 
-// Keep these so you can switch renderers easily:
 import '../widgets/heart_painter_twoIcon+ClipRect.dart'; // HeartFillWidget (two Icons + ClipRect)
 import '../widgets/_LiquidHeartChartState.dart'; // Liquid-style heart (animated)
 import '../widgets/HeartPathFill_ClipPathHeart.dart'; // Path-based ClipPath approach
@@ -13,7 +12,6 @@ import '../widgets/HeartPainterFill.dart'; // CustomPainter pro look
 class HeartScreen extends StatelessWidget {
   const HeartScreen({super.key});
 
-  // Consistent colors with SuccessScreen
   static const Color _navy = Color(0xFF184A6B);
   static const Color _blue = Color(0xFF2F73C6);
   static const Color _grayDisabled = Color(0xFFDADADA);
@@ -51,7 +49,7 @@ class HeartScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 24),
 
-              // ======== CHOOSE ONE HEART RENDERER (keep comments to switch) ========
+              // ======== CHOOSE ONE HEART RENDERER ========
               // Wrap the heart with GestureDetector to Start/Pause on tap.
               GestureDetector(
                 onTap: vm.state == HeartState.completed
@@ -86,7 +84,7 @@ class HeartScreen extends StatelessWidget {
 
                   // 3) Liquid heart (animated fill)
                   // child: LiquidHeartChart(
-                  //   percent: vm.percent, // 👈 this drives the fill
+                  //   percent: vm.percent,
                   //   size: 240,
                   //   showPercentText: false,
                   // ),
@@ -128,7 +126,7 @@ class HeartScreen extends StatelessWidget {
 
               const Spacer(),
 
-              // ======== BOTTOM BUTTONS (consistent with SuccessScreen) ========
+              // ======== BOTTOM BUTTONS  ========
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: Column(
