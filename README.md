@@ -10,7 +10,7 @@ Progress persists between sessions using **SharedPreferences**.
 
 ---
 
-## 🧩 Architecture Summary
+## Code Organization
 
 ```
 lib/
@@ -44,6 +44,32 @@ lib/
 
 ---
 
+## 🧱 Layered Diagram
+
+![Architecture Layers](./architechture_layer.png)
+
+---
+
+## 🔄 State Flow
+
+![Runtime Flow](./state_flow.png)
+
+---
+
+---
+
+## 💾 Data Persistence Flow
+
+1. `HeartViewModel` calls `repo.save(heart, stateIndex)`.
+2. Repository delegates to `HeartLocalDriver`.
+3. Driver uses `LocalStorage` (SharedPreferences) to persist:
+   - `progress`
+   - `capacity`
+   - `stateIndex`
+4. On app relaunch, ViewModel loads previous values and resumes.
+
+---
+
 ## 🧠 Design Patterns
 
 ### MVVM (Model-View-ViewModel)
@@ -66,19 +92,6 @@ sl.registerLazySingleton<HeartRepository>(() => HeartRepositoryImpl(sl<HeartLoca
 sl.registerFactory<HeartViewModel>(() => HeartViewModel(repo: sl(), filler: sl()));
 ```
 
----
-
-## ⚙️ State Management
-
-State is handled using **Provider + ChangeNotifier**.
-
-| State                    | Description                      |
-| ------------------------ | -------------------------------- |
-| `HeartState.empty`       | Initial or cleared.              |
-| `HeartState.progressing` | Timer running and heart filling. |
-| `HeartState.paused`      | Temporarily paused.              |
-| `HeartState.completed`   | Fully filled.                    |
-
 ### ViewModel Responsibilities
 
 - Starts/stops a timer every 1 second.
@@ -92,27 +105,16 @@ State is handled using **Provider + ChangeNotifier**.
 
 ---
 
-## 💾 Data Persistence Flow
+## ⚙️ State Management
 
-1. `HeartViewModel` calls `repo.save(heart, stateIndex)`.
-2. Repository delegates to `HeartLocalDriver`.
-3. Driver uses `LocalStorage` (SharedPreferences) to persist:
-   - `progress`
-   - `capacity`
-   - `stateIndex`
-4. On app relaunch, ViewModel loads previous values and resumes.
+State is handled using **Provider + ChangeNotifier**.
 
----
-
-## 🧱 Layered Diagram
-
-![Architecture Layers](./architechture_layer.png)
-
----
-
-## 🔄 State Flow
-
-![Runtime Flow](./state_flow.png)
+| State                    | Description                      |
+| ------------------------ | -------------------------------- |
+| `HeartState.empty`       | Initial or cleared.              |
+| `HeartState.progressing` | Timer running and heart filling. |
+| `HeartState.paused`      | Temporarily paused.              |
+| `HeartState.completed`   | Fully filled.                    |
 
 ---
 
@@ -145,7 +147,3 @@ State is handled using **Provider + ChangeNotifier**.
 | **GestureDetector-based UX**   | Natural, button-free interaction model.                           |
 
 ---
-
-## 🧾 License
-
-MIT License © 2025 Amey Rane

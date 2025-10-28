@@ -90,6 +90,7 @@ class HeartScreen extends StatelessWidget {
                   //   size: 240,
                   //   showPercentText: false,
                   // ),
+
                   // 4) /// A simple heart fill using ClipPath + Path (no third-party animation).
                   /// - [percent]: 0..100
                   /// - [size]: square extent of the heart area
