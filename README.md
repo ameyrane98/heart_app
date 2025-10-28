@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Heart App** is a Flutter application built to demonstrate clean architecture principles using **MVVM (Model-View-ViewModel)**, **Repository Pattern**, and **Dependency Injection (DI)** with `get_it`.
+**Heart App** is a Flutter application built to demonstrate clean architecture principles using **MVVM (Model-View-ViewModel)** and **Dependency Injection (DI)** with `get_it`.
 
 The app displays a heart that fills up from **0% to 100%**.  
 Users can tap the heart to **start**, **pause**, or **resume** progress.  
