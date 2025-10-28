@@ -1,5 +1,5 @@
 // lib/model/drivers/heart_local_driver.dart
-import '../heart.dart';
+import 'package:heart_app/models/heart.dart';
 import 'local_storage.dart';
 
 class HeartLocalDriver {
@@ -24,4 +24,9 @@ class HeartLocalDriver {
   }
 
   Future<void> clear() => storage.clear();
+
+  Future<int?> loadStateIndex() async {
+    final r = await storage.read();
+    return r.stateIndex;
+  }
 }

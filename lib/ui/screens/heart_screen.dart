@@ -111,12 +111,13 @@ class HeartScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                vm.state == HeartState.progressing
+                vm.state == HeartState.completed
+                    ? 'Heart filled 💯'
+                    : vm.state == HeartState.progressing
                     ? 'Tap to pause ❤️'
-                    : vm.state == HeartState.paused ||
-                          vm.state == HeartState.empty
-                    ? 'Tap to start filling 💜'
-                    : 'Heart filled 💯',
+                    : vm.state == HeartState.paused
+                    ? 'Tap to resume 💜'
+                    : 'Tap to start filling 💜',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
