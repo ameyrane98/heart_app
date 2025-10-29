@@ -4,8 +4,7 @@ import 'dart:async';
 /// - Call [start] with an [onTick] callback.
 /// - Each tick occurs every [tickDuration].
 /// - Call [pause] (or [dispose]) to stop.
-///
-/// Kept simple on purpose so it’s easy to fake in tests later.
+
 class HeartFillService {
   HeartFillService({this.tickDuration = const Duration(seconds: 1)});
 
@@ -14,7 +13,7 @@ class HeartFillService {
 
   bool get isRunning => _timer != null;
 
-  /// Starts periodic ticks. No-op if already running.
+  /// Starts periodic ticks.
   void start(void Function() onTick) {
     if (_timer != null) return;
     _timer = Timer.periodic(tickDuration, (_) => onTick());
